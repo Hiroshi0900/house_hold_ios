@@ -1,0 +1,33 @@
+{
+    "result":0,
+    "players":[
+            {
+                    "player_name":"Mendy",
+                    "number":16
+            },
+            {
+                    "player_name":"Kepa",
+                    "number":1
+            },
+                {
+                    "player_name":"Kepa",
+                    "number":"1"
+                },
+                {
+                    "player_name":"Kabajero",
+                    "number":"100"
+                },
+                {
+                    "player_name":"Thiago",
+                    "number":"6"
+                },
+                {
+                    "player_name":"Cezal",
+                    "number":"28"
+                },
+                {
+                    "player_name":"Zouma",
+                    "number":"5"
+                }
+    ]
+}
