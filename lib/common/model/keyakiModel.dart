@@ -36,7 +36,7 @@ class KeyakiModel with ChangeNotifier {
     List<Keyaki> list = [];
     // csvデータを全て読み込む
     String csv = await rootBundle.loadString("assets/keyaki.csv");
-
+    print(csv);
     // csvデータを1行ずつ処理する
     List data = csv.replaceAll('\\n', '\n').split('\n');
     for (String line in data) {

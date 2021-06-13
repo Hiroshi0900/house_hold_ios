@@ -6,19 +6,20 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('home'),
+        title: Text('ホーム'),
       ),
-      body: ListView(
-        // リストビューを追加
-        padding: const EdgeInsets.all(8.0),
-        children: <Widget>[
-          Tile(
-            icon: Icons.accessibility_new,
-            username: 'test',
-            message: '1234567890-',
-          ),
-        ],
-      ),
+      // body: ListView(
+      //   // リストビューを追加
+      //   padding: const EdgeInsets.all(8.0),
+      //   children: <Widget>[
+      //     Tile(
+      //       icon: Icons.accessibility_new,
+      //       username: 'test',
+      //       message: '1234567890-',
+      //     ),
+      //   ],
+      // ),
+      body: Container(),
     );
   }
 }
