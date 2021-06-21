@@ -12,39 +12,8 @@ import '../common/model/keyakiModel.dart';
 import '../common/model/miscellaneousies.dart';
 
 class ImportExport extends StatelessWidget {
-  DetailData detail = new DetailData();
-  KeyakiModel keyakiModel = new KeyakiModel();
-  bool headerFlag = false;
-
   @override
   Widget build(BuildContext context) {
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('ImportExport'),
-    //   ),
-    //   body: Center(
-    //     child: Text('ImportExport'),
-    //   ),
-    //   // body: Center(child: Detail()),
-    // );
-    /*
-    return ChangeNotifierProvider<Miscellaneousies>(
-        create: (_) => Miscellaneousies()..fetchMiscellaneous(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Firebase Test'),
-            backgroundColor: Colors.purple,
-            centerTitle: true,
-          ),
-          body: Consumer<Miscellaneousies>(builder: (context, model, child) {
-            print('test!');
-
-            print(model);
-            print(child);
-            return _buildListView('test');
-          }),
-        ));
-        */
     return Scaffold(
         appBar: AppBar(
           title: Text('入出金'),

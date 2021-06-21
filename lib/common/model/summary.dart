@@ -1,19 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../api/networkhelper.dart';
+import '../util/Constants.dart';
+import '../util/StrictAssistant.dart';
 
 import 'package:flutter/material.dart';
 
-// class Summary {
-//   // フィールドを生成
-//   int id;
-//   String day;
-//   String category;
-//   String price;
+class Sum {
+  // フィールドを生成
+  int id;
+  String category;
+  String price;
+  Color color;
+  Icon icon;
 
-//   // コンストラクタ
-//   Miscellaneous({this.id, this.day, this.category, this.price});
-// }
+  // コンストラクタ
+  Sum({this.id, this.category, this.price, this.color, this.icon});
+}
 
 class Summary with ChangeNotifier {
   @override
@@ -21,7 +24,15 @@ class Summary with ChangeNotifier {
   //   getAwsJson();
   // }
   // 返却値
-  List _summaryData = [];
+  List<Sum> _summaryData = [];
+  List<Sum> get summaryData {
+    return [..._summaryData];
+  }
+
+  Sum _summaryTotal;
+  Sum get summaryTotal {
+    return _summaryTotal;
+  }
 
   // List<Miscellaneous> _miscellData = [];
   // List<Map<String, List<Miscellaneous>>> _miscellaneousies = [];
@@ -40,23 +51,41 @@ class Summary with ChangeNotifier {
     });
   }
 
-  Future<void> fetchMiscellaneous() async {
+  Future<void> fetchSummary() async {
     _summaryData = []; // 初期化しないと増えてしまう
     await getAwsJson();
 
     // const url =
     //     'https://v6h26y4nyj.execute-api.ap-northeast-1.amazonaws.com/dev/api/gss';
     // final response = await http.get(url);
-    String url = _awsResponse['host'] + _awsResponse['summary'];
-    NetworkHelper networkHelper = NetworkHelper(url: url);
+    // String url = _awsResponse['host'] + _awsResponse['summary'];
+    // NetworkHelper networkHelper = NetworkHelper(url: url);
 
-    final response = await networkHelper.getData();
+    // final response = await networkHelper.getData();
+    final r = await rootBundle.loadString('json/sum_develop.json'); //開発用
+    final response = json.decode(r);
 
     int idNumber = 1;
-    response.forEach((var day, var valueData) {
-      // print('$key : $value');
-      for (List detail in valueData[1]) {}
-      // break;
+    int index = 0;
+    response.forEach((var category, var price) {
+      if (index != 0) {
+        Sum rowData = Sum(
+          id: idNumber++,
+          category: category,
+          price: price,
+          color: Color(StrictAssistant.getColorFromHex(kColorList[index++])),
+          icon: kIconList[index],
+        );
+        _summaryData.add(rowData);
+      } else {
+        _summaryTotal = Sum(
+          id: idNumber++,
+          category: category,
+          price: price,
+          color: Color(StrictAssistant.getColorFromHex(kColorList[index++])),
+          icon: kIconList[index],
+        );
+      }
     });
     notifyListeners();
   }
