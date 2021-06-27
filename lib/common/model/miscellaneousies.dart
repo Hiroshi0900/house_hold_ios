@@ -47,7 +47,7 @@ class Miscellaneousies with ChangeNotifier {
     // final response = await http.get(url);
     String url = _awsResponse['host'] + _awsResponse['gss'];
     NetworkHelper networkHelper = NetworkHelper(url: url);
-
+    print(url);
     final response = await networkHelper.getData();
 
     int idNumber = 1;

@@ -58,12 +58,12 @@ class Summary with ChangeNotifier {
     // const url =
     //     'https://v6h26y4nyj.execute-api.ap-northeast-1.amazonaws.com/dev/api/gss';
     // final response = await http.get(url);
-    // String url = _awsResponse['host'] + _awsResponse['summary'];
-    // NetworkHelper networkHelper = NetworkHelper(url: url);
+    String url = _awsResponse['host'] + _awsResponse['summary'];
+    NetworkHelper networkHelper = NetworkHelper(url: url);
 
-    // final response = await networkHelper.getData();
-    final r = await rootBundle.loadString('json/sum_develop.json'); //開発用
-    final response = json.decode(r);
+    final response = await networkHelper.getData();
+    // final r = await rootBundle.loadString('json/sum_develop.json'); //開発用
+    // final response = json.decode(r);
 
     int idNumber = 1;
     int index = 0;

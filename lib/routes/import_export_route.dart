@@ -1,7 +1,4 @@
-// import 'dart:js';
-
 import 'package:flutter/material.dart';
-// import './import_export/detail.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../common/api/keyakiController.dart';
 import '../common/api/detailData.dart';
@@ -10,44 +7,71 @@ import '../common/api/detailData.dart';
 import 'package:provider/provider.dart';
 import '../common/model/keyakiModel.dart';
 import '../common/model/miscellaneousies.dart';
+import '../common/util/DateAssistant.dart';
 
 class ImportExport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    DateAssistant dateClass = new DateAssistant();
     return Scaffold(
         appBar: AppBar(
-          title: Text('入出金'),
+          title: Text('入出金 : ' + DateAssistant.getTodayString()),
         ),
         body: FutureBuilder(
-          // future: detail.getDetailData(),
-          // future: miscellaneousExpenses.fetchMiscellaneous(), // 普通にデータをフェッチする場合
-          // future: Provider.of<Miscellaneousies>(context, listen: false)
-          future: Provider.of<Miscellaneousies>(context, listen: false)
-              .fetchMiscellaneous(),
-          // builder:
-          //     (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
-          builder: (ctx, dataSnapshot) {
-            if (dataSnapshot.connectionState == ConnectionState.waiting) {
-              // まだ通信中
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (dataSnapshot.error != null) {
-              return Center(
-                child: Text('データが存在しません'),
-              );
-            }
-            // return Consumer<Miscellaneousies>(
-            return Consumer<Miscellaneousies>(
-                builder: (cctx, data, child) => ListView.builder(
-                      itemCount: data.miscellaneous.length,
-                      itemBuilder: (lctx, index) {
-                        return _buildListView(data.miscellaneous[index]);
-                      },
-                    ));
-          },
-        ));
+            // future: detail.getDetailData(),
+            // future: miscellaneousExpenses.fetchMiscellaneous(), // 普通にデータをフェッチする場合
+            // future: Provider.of<Miscellaneousies>(context, listen: false)
+            future: Provider.of<Miscellaneousies>(context, listen: false)
+                .fetchMiscellaneous(),
+            // builder:
+            //     (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+            builder: (ctx, dataSnapshot) {
+              if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                // まだ通信中
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (dataSnapshot.error != null) {
+                return Center(
+                  child: Text('データが存在しません'),
+                );
+              }
+              // return Consumer<Miscellaneousies>(
+              return Consumer<Miscellaneousies>(
+                  builder: (cctx, data, child) => ListView.builder(
+                        itemCount: data.miscellaneous.length,
+                        itemBuilder: (lctx, index) {
+                          return _buildListView(data.miscellaneous[index]);
+                        },
+                      ));
+              // builder: (cctx, data, child) => ListView(
+              //       padding: const EdgeInsets.all(8),
+              //       children: <Widget>[
+              //         Container(
+              //             color: Colors.orange[500],
+              //             child: ListTile(
+              //               leading: ConstrainedBox(
+              //                 constraints: BoxConstraints(
+              //                     minHeight: 44,
+              //                     minWidth: 34,
+              //                     maxHeight: 64,
+              //                     maxWidth: 54),
+              //                 child: Container(
+              //                     color: Colors.orange[500],
+              //                     child: ListTile(
+              //                       title: Text(
+              //                         '月',
+              //                         // style: TextStyle(color: Colors.white),
+              //                       ),
+              //                     )),
+              //               ),
+              //             ),
+
+              //             ),
+              //       ],
+              //     ));
+            }));
   }
 
   Widget _buildListView(Map<String, List<Miscellaneous>> miscellaneous) {
@@ -63,7 +87,7 @@ class ImportExport extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            color: Colors.grey[200],
+            color: Colors.green[200],
             alignment: Alignment.center,
             height: 50,
             child: ListTile(
