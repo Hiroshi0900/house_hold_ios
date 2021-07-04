@@ -5,6 +5,7 @@ import './root.dart';
 // import './common/views/footer.dart';
 import './common/model/miscellaneousies.dart';
 import './common/model/summary.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MainApp());
@@ -38,6 +39,13 @@ class MainApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          localizationsDelegates: [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('ja'),
+          ],
           debugShowCheckedModeBanner: false, // Debugの表示をオフにする
           home: RootWidget(),
           title: 'Demo',

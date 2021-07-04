@@ -8,72 +8,16 @@ import '../common/model/summary.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import '../common/util/indicator.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
-//   // PieChartSectionDataはライブラリ指定のやつ
-//   List<PieChartSectionData> showingSections() {
-//     // 'List.generate(4, (i) {'はループを指す
-//     return List.generate(4, (i) {
-//       final isTouched = i == touchedIndex;
-//       final fontSize = isTouched ? 25.0 : 16.0;
-//       final radius = isTouched ? 60.0 : 50.0;
-//       switch (i) {
-//         case 0:
-//           return PieChartSectionData(
-//             color: const Color(0xff0293ee),
-//             value: 40,
-//             title: '40%',
-//             radius: radius,
-//             titleStyle: TextStyle(
-//                 fontSize: fontSize,
-//                 fontWeight: FontWeight.bold,
-//                 color: const Color(0xffffffff)),
-//           );
-//         case 1:
-//           return PieChartSectionData(
-//             color: const Color(0xfff8b250),
-//             value: 30,
-//             title: '30%',
-//             radius: radius,
-//             titleStyle: TextStyle(
-//                 fontSize: fontSize,
-//                 fontWeight: FontWeight.bold,
-//                 color: const Color(0xffffffff)),
-//           );
-//         case 2:
-//           return PieChartSectionData(
-//             color: const Color(0xff845bef),
-//             value: 15,
-//             title: '15%',
-//             radius: radius,
-//             titleStyle: TextStyle(
-//                 fontSize: fontSize,
-//                 fontWeight: FontWeight.bold,
-//                 color: const Color(0xffffffff)),
-//           );
-//         case 3:
-//           return PieChartSectionData(
-//             color: const Color(0xff13d38e),
-//             value: 15,
-//             title: '15%',
-//             radius: radius,
-//             titleStyle: TextStyle(
-//                 fontSize: fontSize,
-//                 fontWeight: FontWeight.bold,
-//                 color: const Color(0xffffffff)),
-//           );
-//         default:
-//           throw Error();
-//       }
-//     });
-//   }
-// }
 class Home extends StatelessWidget {
   int touchedIndex = -1;
+  DateTime date = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('入出金'),
+          title: Text('ホーム'),
         ),
         body: FutureBuilder(
           future: Provider.of<Summary>(context, listen: false).fetchSummary(),
@@ -113,7 +57,7 @@ class Home extends StatelessWidget {
                                 // style: TextStyle(color: Colors.white),
                               ),
                             )),
-                        Expanded(
+                        GestureDetector(
                           child: AspectRatio(
                             aspectRatio: 1,
                             child: PieChart(
@@ -188,5 +132,23 @@ class Home extends StatelessWidget {
               fontWeight: FontWeight.bold,
               color: const Color(0xffffffff)));
     });
+  }
+
+  selectDate(BuildContext context) async {
+    // 1年前から1年後の範囲でカレンダーから日付を選択します。
+    var selectedDate = await showMonthPicker(
+      context: context,
+      initialDate: this.date,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    // 選択がキャンセルされた場合はNULL
+    if (selectedDate == null) return;
+
+    // 選択されて日付で更新
+    // this.setState(() {
+    //   this.date = selectedDate;
+    // });
   }
 }
