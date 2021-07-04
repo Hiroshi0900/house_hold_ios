@@ -34,12 +34,6 @@ class Summary with ChangeNotifier {
     return _summaryTotal;
   }
 
-  // List<Miscellaneous> _miscellData = [];
-  // List<Map<String, List<Miscellaneous>>> _miscellaneousies = [];
-  // List<Map<String, List<Miscellaneous>>> get miscellaneous {
-  //   return [..._miscellaneousies];
-  // }
-
   Map<String, String> _awsResponse = {};
   Future<void> getAwsJson() async {
     String awsHost = await rootBundle.loadString('json/aws.json');
@@ -51,7 +45,8 @@ class Summary with ChangeNotifier {
     });
   }
 
-  Future<void> fetchSummary() async {
+  Future<void> fetchSummary(String nowDateString) async {
+    print('引数は' + nowDateString);
     _summaryData = []; // 初期化しないと増えてしまう
     await getAwsJson();
 
@@ -59,9 +54,13 @@ class Summary with ChangeNotifier {
     //     'https://v6h26y4nyj.execute-api.ap-northeast-1.amazonaws.com/dev/api/gss';
     // final response = await http.get(url);
     String url = _awsResponse['host'] + _awsResponse['summary'];
+    if (nowDateString != '') url = url + '/?ym=' + nowDateString;
     NetworkHelper networkHelper = NetworkHelper(url: url);
 
     final response = await networkHelper.getData();
+    if (response == null) {
+      return;
+    }
     // final r = await rootBundle.loadString('json/sum_develop.json'); //開発用
     // final response = json.decode(r);
 

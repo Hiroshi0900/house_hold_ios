@@ -38,7 +38,7 @@ class Miscellaneousies with ChangeNotifier {
     });
   }
 
-  Future<void> fetchMiscellaneous() async {
+  Future<void> fetchMiscellaneous(String nowDateString) async {
     _miscellaneousies = []; // 初期化しないと増えてしまう
     await getAwsJson();
 
@@ -46,6 +46,7 @@ class Miscellaneousies with ChangeNotifier {
     //     'https://v6h26y4nyj.execute-api.ap-northeast-1.amazonaws.com/dev/api/gss';
     // final response = await http.get(url);
     String url = _awsResponse['host'] + _awsResponse['gss'];
+    if (nowDateString != '') url = url + '/?ym=' + nowDateString;
     NetworkHelper networkHelper = NetworkHelper(url: url);
     print(url);
     final response = await networkHelper.getData();

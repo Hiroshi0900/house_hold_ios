@@ -8,23 +8,57 @@ import 'package:provider/provider.dart';
 import '../common/model/keyakiModel.dart';
 import '../common/model/miscellaneousies.dart';
 import '../common/util/DateAssistant.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
-class ImportExport extends StatelessWidget {
+class ImportExport extends StatefulWidget {
+  @override
+  _ImportExportState createState() => _ImportExportState();
+}
+
+class _ImportExportState extends State<ImportExport> {
+  String _nowDateString = '';
+  DateTime date = DateTime.now();
+  Future<void> _future;
+  void initState() {
+    _future = asyncGetHomeData();
+    super.initState();
+  }
+
+  void _changeTarget(String target) {
+    setState(() {
+      _nowDateString = target;
+      asyncGetHomeData();
+    });
+  }
+
+  Future<void> asyncGetHomeData() async {
+    await Provider.of<Miscellaneousies>(context, listen: false)
+        .fetchMiscellaneous(_nowDateString);
+  }
+
   @override
   Widget build(BuildContext context) {
     DateAssistant dateClass = new DateAssistant();
     return Scaffold(
         appBar: AppBar(
-          title: Text('入出金 : ' + DateAssistant.getTodayString()),
+          title: Text(
+            '入出金' +
+                '：' +
+                date.year.toString() +
+                '/' +
+                date.month.toString().padLeft(2, '0'),
+          ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.business_rounded),
+              onPressed: () => setState(() {
+                selectDate(context);
+              }),
+            ),
+          ],
         ),
         body: FutureBuilder(
-            // future: detail.getDetailData(),
-            // future: miscellaneousExpenses.fetchMiscellaneous(), // 普通にデータをフェッチする場合
-            // future: Provider.of<Miscellaneousies>(context, listen: false)
-            future: Provider.of<Miscellaneousies>(context, listen: false)
-                .fetchMiscellaneous(),
-            // builder:
-            //     (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+            future: _future,
             builder: (ctx, dataSnapshot) {
               if (dataSnapshot.connectionState == ConnectionState.waiting) {
                 // まだ通信中
@@ -45,32 +79,6 @@ class ImportExport extends StatelessWidget {
                           return _buildListView(data.miscellaneous[index]);
                         },
                       ));
-              // builder: (cctx, data, child) => ListView(
-              //       padding: const EdgeInsets.all(8),
-              //       children: <Widget>[
-              //         Container(
-              //             color: Colors.orange[500],
-              //             child: ListTile(
-              //               leading: ConstrainedBox(
-              //                 constraints: BoxConstraints(
-              //                     minHeight: 44,
-              //                     minWidth: 34,
-              //                     maxHeight: 64,
-              //                     maxWidth: 54),
-              //                 child: Container(
-              //                     color: Colors.orange[500],
-              //                     child: ListTile(
-              //                       title: Text(
-              //                         '月',
-              //                         // style: TextStyle(color: Colors.white),
-              //                       ),
-              //                     )),
-              //               ),
-              //             ),
-
-              //             ),
-              //       ],
-              //     ));
             }));
   }
 
@@ -110,6 +118,26 @@ class ImportExport extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  selectDate(BuildContext context) async {
+    // 1年前から1年後の範囲でカレンダーから日付を選択します。
+    var selectedDate = await showMonthPicker(
+      context: context,
+      initialDate: this.date,
+      firstDate: DateTime(DateTime.now().year - 1),
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+
+    // 選択がキャンセルされた場合はNULL
+    if (selectedDate == null) return;
+
+    // 選択されて日付で更新
+    this.setState(() {
+      this.date = selectedDate;
+      this._changeTarget(selectedDate.year.toString() +
+          selectedDate.month.toString().padLeft(2, '0'));
+    });
   }
 /*
   // 一覧表示
