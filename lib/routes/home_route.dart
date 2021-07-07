@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../common/model/summary.dart';
+import '../common/util/DateAssistant.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 class Home extends StatefulWidget {
   // const Home({ Key? key }) : super(key: key);
+  Home({this.date, this.nowDateString});
+  final DateTime date;
+  String nowDateString;
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  // DateAssistant dateAssistant = new DateAssistant();
   int touchedIndex = -1;
   DateTime date = DateTime.now();
   String _nowDateString = '';
@@ -27,6 +32,7 @@ class _HomeState extends State<Home> {
   void _changeTarget(String target) {
     setState(() {
       _nowDateString = target;
+      // dateAssistant.updateNowDate(target);
       asyncGetHomeData();
     });
   }

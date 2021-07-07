@@ -8,6 +8,7 @@ import 'routes/home_route.dart';
 import 'routes/import_export_route.dart';
 import 'routes/input_route.dart';
 import 'routes/wallet_route.dart';
+import 'common/util/DateAssistant.dart';
 // ================================== //
 
 // 動的に変動するのでステートフルウィジェット
@@ -19,6 +20,7 @@ class RootWidget extends StatefulWidget {
 }
 
 class _RootWidgetState extends State<RootWidget> {
+  DateAssistant dateAssistant = new DateAssistant();
   // 選択箇所のインデックス
   int _selectedIndex = 0;
   // ナビゲーションバーウィジェット
@@ -28,19 +30,20 @@ class _RootWidgetState extends State<RootWidget> {
     Icons.home,
     Icons.import_export_rounded,
     Icons.create,
-    Icons.money,
-    Icons.account_balance_wallet_rounded
+    // Icons.money,
+    // Icons.account_balance_wallet_rounded
   ];
   // アイコン文字列
-  static const _footerItemName = ['ホーム', '入出金', '入力', '家計簿', '口座'];
+  // static const _footerItemName = ['ホーム', '入出金', '入力', '家計簿', '口座'];
+  static const _footerItemName = ['ホーム', '入出金', '入力'];
 
   // ルート
   var _routes = [
     Home(),
     ImportExport(),
     Input(),
-    Bank(),
-    Wallet(),
+    // Bank(),
+    // Wallet(),
   ];
 
   @override
